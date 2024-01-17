@@ -43,7 +43,16 @@ export default function Inicio() {
 
       })
       if (res.status === 201) {
-        window.location.href = '/selectUser'
+        const data = await res.json()
+        const options = {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production', // Asegúrate de configurar HTTPS en producción
+          sameSite: 'Strict',
+          maxAge: 3600, // Duración de la cookie en segundos (ajusta según tus necesidades)
+          path: '/', // Especifica la ruta para la cual es válida la cookie
+        };
+        document.cookie = `auth=${data.payload}; ${Object.entries(options).map(([key, value]) => `${key}=${value}`).join('; ')}`;
+        // window.location.href = '/selectUser'
       } else if (res.status === 401) {
         const data = await res.json()
         showSwal(data.message)

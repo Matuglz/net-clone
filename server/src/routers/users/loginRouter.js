@@ -15,7 +15,7 @@ loginRouter.post('/Login', async (req, res) => {
             domain:"net-clone-xi.vercel.app"
         })
         console.log(req.protocol)
-        res.status(201).json({ status: 'success', message: 'login ok' })
+        res.status(201).json({ status: 'success', message: 'login ok', payload: token })
     } catch (error) {
         res.status(401).json({ status: 'error', message: error.message })
     }
